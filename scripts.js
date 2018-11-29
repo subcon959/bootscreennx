@@ -1,5 +1,6 @@
 /* global $ */
 $.jCanvas.defaults.fromCenter = false;
+const FONT_HEIGHT = 32;
 
 /* jCanvas has an option for write full strings but don't have a option for control letter spacing.
 The font has a letter spacing of 2px, and the generator needs a spacing of 1px.
@@ -20,7 +21,7 @@ var write = function(x, y, text, color = 'gray') {
 		$('#topscreen').drawText({
 			fillStyle: color,
 			x: x+2, y: y,
-			fontSize: 16,
+			fontSize: 32,
 			fontFamily: 'PerfectDOSVGA437Win',
 			align: 'left',
 			text: letter
@@ -28,7 +29,7 @@ var write = function(x, y, text, color = 'gray') {
 	
 		/* Remove the character writed from the string, and if itn't empty, continue recursive */
 		text = text.substr(1);
-		x = x + 8;
+		x = x + 16;
 	}
 }
 
@@ -125,25 +126,17 @@ $("#settings input, #settings select").on('change', function() {
 			break;
 	}
 
-	write(24, 16*1, line1);
-	write(24, 16*2, line2);
+	write(24, FONT_HEIGHT * 1, line1);
+	write(24, FONT_HEIGHT * 2, line2);
 
-	write(0, 16*5, 'Nintendo Switch ('+region+')');
-	processor = 2; sd += ' SD'
+	write(0, FONT_HEIGHT * 5, 'Nintendo Switch ('+region+')');
+	sd += ' SD'
 
-	switch(processor) {
-		case 2:
-			write(0, 16*7, 'Main Processor       : Dual-core ARM11 MPCore');
-			write(0, 16*8, 'Memory Testing       : 131072K OK');
-			break;
-		case 4:
-			write(0, 16*7, 'Main Processor       : Quad-core ARM11 MPCore');
-			write(0, 16*8, 'Memory Testing       : 262144K OK');
-			break;
-	}
+	write(0, FONT_HEIGHT * 7, 'Main Processor       : Dual-core ARM11 MPCore');
+	write(0, FONT_HEIGHT * 8, 'Memory Testing       : 131072K OK');
 
-	write(0, 16*9,  'Detecting Primary Master ... '+ processor/2 +'G Internal Memory');
-	write(0, 16*10, 'Detecting Primary Slave  ... '+ sd +' Card');
+	write(0, FONT_HEIGHT * 9,  'Detecting Primary Master ... '+ processor/2 +'G Internal Memory');
+	write(0, FONT_HEIGHT *10, 'Detecting Primary Slave  ... '+ sd +' Card');
 	
 	if (!use_bootinput)
 		$('input[name=boottool]', "#settings").val($('select[name=boottool] option:selected', "#settings").text());
@@ -162,12 +155,12 @@ $("#settings input, #settings select").on('change', function() {
 	var aux_text = '_Hold ' + aux_keys + ' '+ $('select[name=secondTime] option:selected').text() +'_ to enter _' + aux_tool + '_.';
 	
 	if (boot_bool && !aux_bool)
-		write(0, 16*14, boot_text);
+		write(0, FONT_HEIGHT * 14, boot_text);
 	else if (boot_bool)
-		write(0, 16*13, boot_text);
+		write(0, FONT_HEIGHT * 13, boot_text);
 	
 	if (aux_bool)
-		write(0, 16*14, aux_text);
+		write(0, FONT_HEIGHT * 14, aux_text);
 
 	if ($topscreen.width() == 800) {
 		$topscreen.drawImage({
