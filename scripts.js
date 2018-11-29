@@ -47,7 +47,7 @@ var write = function(x, y, text, color = 'gray') {
 
 /* This draw the entire splash screen with any change on the form */
 $("#settings input, #settings select").on('change', function() {
-	var region = $('select[name=region] option:selected', "#settings").val();
+	var firmware = $('select[name=firmware] option:selected', "#settings").val();
 	var sd = $('select[name=sd] option:selected', "#settings").val();
 	var type = $('select[name=type] option:selected', "#settings").val();
 	
@@ -140,7 +140,7 @@ $("#settings input, #settings select").on('change', function() {
 	write(24, FONT_HEIGHT * 1, line1);
 	write(24, FONT_HEIGHT * 2, line2);
 
-	write(0, FONT_HEIGHT * 5, 'Nintendo Switch ('+region+')');
+	write(0, FONT_HEIGHT * 5, 'Nintendo Switch (ver '+firmware+')');
 	sd += ' SD'
 
 	write(0, FONT_HEIGHT * 7, 'Main Processor       : Dual-core ARM11 MPCore');
@@ -188,7 +188,7 @@ window.onload = function() {
 		source: 'images/symbols.png',
 		x: 0, y: 0,
 		load: function() {
-			$("select[name=region]", "#settings").trigger('change');
+			$("select[name=firmware]", "#settings").trigger('change');
 			if ($('#offline_warning').is(':hidden'))
 				$('#downloadPNG, #downloadBIN').removeClass('disabled');
 		}
@@ -209,3 +209,4 @@ $('#downloadPNG').click(function() {
 		download(filedata, filename, "image/png");
 	}
 });
+
