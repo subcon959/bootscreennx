@@ -1,6 +1,7 @@
 /* global $ */
 $.jCanvas.defaults.fromCenter = false;
 const FONT_HEIGHT = 32;
+var mainCanvas = $('#topscreen');
 
 /* jCanvas has an option for write full strings but don't have a option for control letter spacing.
 The font has a letter spacing of 2px, and the generator needs a spacing of 1px.
@@ -18,7 +19,7 @@ var write = function(x, y, text, color = 'gray') {
 		}
 
 		/* Draw 1 character */
-		$('#topscreen').drawText({
+		mainCanvas.drawText({
 			fillStyle: color,
 			x: x+2, y: y,
 			fontSize: 32,
@@ -35,7 +36,6 @@ var write = function(x, y, text, color = 'gray') {
 
 /* This draw the entire splash screen with any change on the form */
 $("#settings input, #settings select").on('change', function() {
-	var $topscreen = $('#topscreen');
 	var region = $('select[name=region] option:selected', "#settings").val();
 	var sd = $('select[name=sd] option:selected', "#settings").val();
 	var type = $('select[name=type] option:selected', "#settings").val();
@@ -57,28 +57,28 @@ $("#settings input, #settings select").on('change', function() {
 
 	switch(type) {
 		case 'luma2016':
-			$topscreen.attr('width', 400);
+			mainCanvas.attr('width', 400);
 			line2 = 'Copyright(C) 2016, AuroraWright';
 			break;
 		case 'luma2017':
-			$topscreen.attr('width', 400);
+			mainCanvas.attr('width', 400);
 			line2 = 'Copyright(C) 2017, AuroraWright';
 			break;
 		case 'luma2018':
-			$topscreen.attr('width', 400);
+			mainCanvas.attr('width', 400);
 			line2 = 'Copyright(C) 2018, AuroraWright';
 			break;
 		case 'menuhax2015':
-			$topscreen.attr('width', 800);
+			mainCanvas.attr('width', 800);
 			line2 = 'Copyright(C) 2015, yellow8';
 			break;
 		case 'menuhax2016':
-			$topscreen.attr('width', 800);
+			mainCanvas.attr('width', 800);
 			line2 = 'Copyright(C) 2016, yellow8';
 			break;
 	}
 
-	$topscreen.clearCanvas().drawRect({
+	mainCanvas.clearCanvas().drawRect({
 		fillStyle: 'black',
 		x: 0, y: 0,
 		width: 400,
@@ -93,7 +93,7 @@ $("#settings input, #settings select").on('change', function() {
 	
 	switch ($('select[name=logoOptions] option:selected', "#settings").val()) {
 		case 'energyStar':
-			$topscreen.drawImage({
+			mainCanvas.drawImage({
 				source: 'images/symbols.png',
 				x: 266, y: 16,
 				sWidth: 133,
@@ -107,7 +107,7 @@ $("#settings input, #settings select").on('change', function() {
 			});
 			break;
 		case 'energyLuma':
-			$topscreen.drawImage({
+			mainCanvas.drawImage({
 				source: 'images/symbols.png',
 				x: 266, y: 16,
 				sWidth: 133,
@@ -116,7 +116,7 @@ $("#settings input, #settings select").on('change', function() {
 			});
 			break;
 		case 'lumaIcon':
-			$topscreen.drawImage({
+			mainCanvas.drawImage({
 				source: 'images/symbols.png',
 				x: 266, y: 8,
 				sWidth: 133,
@@ -162,9 +162,9 @@ $("#settings input, #settings select").on('change', function() {
 	if (aux_bool)
 		write(0, FONT_HEIGHT * 14, aux_text);
 
-	if ($topscreen.width() == 800) {
-		$topscreen.drawImage({
-			source: $topscreen.getCanvasImage(),
+	if (mainCanvas.width() == 800) {
+		mainCanvas.drawImage({
+			source: mainCanvas.getCanvasImage(),
 			x: 400, y: 0
 		});
 	}
@@ -193,24 +193,24 @@ $('input[name=auxtool]', "#settings").keyup(function() { $("#settings input").tr
 /* global download */
 $('#downloadPNG').click(function() {
 	if (!$(this).hasClass('disabled')) {
-		var filename = ($('#topscreen').width() == 400) ? 'splash.png' : 'imagedisplay.png';
-		var filedata = $('#topscreen').getCanvasImage();
+		var filename = (mainCanvas.width() == 400) ? 'splash.png' : 'imagedisplay.png';
+		var filedata = mainCanvas.getCanvasImage();
 		download(filedata, filename, "image/png");
 	}
 });
 
 $('#downloadBIN').click(function() {
 	if (!$(this).hasClass('disabled')) {
-		var filename = ($('#topscreen').width() == 400) ? 'splash.bin' : 'menuhax_imagedisplay.bin';
+		var filename = (mainCanvas.width() == 400) ? 'splash.bin' : 'menuhax_imagedisplay.bin';
 		
-		var width = $('#topscreen').height();
-		var height = $('#topscreen').width();
+		var width = mainCanvas.height();
+		var height = mainCanvas.width();
 		
 		var $canvas = $('<canvas/>').css({ position: 'absolute', top: 0, left: -1*width }).appendTo('body');
 		$canvas.attr('width', width).attr('height', height);
 
 		$canvas.drawImage({
-			source: $('#topscreen').getCanvasImage(),
+			source: mainCanvas.getCanvasImage(),
 			x: width/2, y: height/2,
 			fromCenter: true,
 			rotate: 90
