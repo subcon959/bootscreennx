@@ -52,7 +52,7 @@ $("#settings input, #settings select").on('change', function() {
 	var type = $('select[name=type] option:selected', "#settings").val();
 	
 	var line1 = $('select[name=type] option:selected', "#settings").text();
-	var line2 = ''; var processor = 0; var use_bootinput = false; var use_auxinput = false;
+	var line2 = ''; var use_bootinput = false; var use_auxinput = false;
 
 	if ($('select[name=boottool] option:selected', "#settings").val() == 'custom') {
 		$('input[name=boottool]', "#settings").show();
@@ -143,11 +143,11 @@ $("#settings input, #settings select").on('change', function() {
 	write(0, FONT_HEIGHT * 5, 'Nintendo Switch (ver '+firmware+')');
 	sd += ' SD'
 
-	write(0, FONT_HEIGHT * 7, 'Main Processor       : Dual-core ARM11 MPCore');
-	write(0, FONT_HEIGHT * 8, 'Memory Testing       : 131072K OK');
+	write(0, FONT_HEIGHT * 7, 'Main Processor		: Dual-core ARM11 MPCore');
+	write(0, FONT_HEIGHT * 8, 'Memory Testing		: 4194000K OK');
 
-	write(0, FONT_HEIGHT * 9,  'Detecting Primary Master ... '+ processor/2 +'G Internal Memory');
-	write(0, FONT_HEIGHT *10, 'Detecting Primary Slave  ... '+ sd +' Card');
+	write(0, FONT_HEIGHT * 9, 'Primary Master		: 32G Internal Storage');
+	write(0, FONT_HEIGHT *10, 'Primary Slave 		: '+ sd +' Card');
 	
 	if (!use_bootinput)
 		$('input[name=boottool]', "#settings").val($('select[name=boottool] option:selected', "#settings").text());
