@@ -99,7 +99,7 @@ $("#settings input, #settings select").on('change', function() {
 		height: CANVAS_HEIGHT
 	}).drawImage({
 		source: 'images/symbols.png',
-		x: 1, y: 16,
+		x: 8, y: 16,
 		sWidth: 21,
 		sHeight: 29,
 		width: 42,
