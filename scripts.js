@@ -3,6 +3,9 @@ $.jCanvas.defaults.fromCenter = false;
 
 // The vertical distance between where strings are drawn
 const FONT_HEIGHT = 32;
+// The padding from the left of the screen for all text
+const FONT_X_PADDING = 32;
+
 // The width of the main canvas
 const CANVAS_WIDTH = 1280;
 // The height of the main canvas
@@ -96,6 +99,8 @@ $("#settings input, #settings select").on('change', function() {
 		x: 1, y: 16,
 		sWidth: 21,
 		sHeight: 29,
+		width: 42,
+		height: 58,
 		sx: 40, sy: 10
 	});
 	
@@ -103,15 +108,17 @@ $("#settings input, #settings select").on('change', function() {
 		case 'energyStar':
 			mainCanvas.drawImage({
 				source: 'images/symbols.png',
-				x: 266, y: 16,
+				x: 966, y: 16,
 				sWidth: 133,
 				sHeight: 84,
+				width: 266,
+				height: 168,
 				sx: 0, sy: 0
-			}).drawRect({
+			}).drawRect({ // Cover the little blue man in the energy star logo
 				fillStyle: 'black',
-				x: 306, y: 26,
-				width: 21,
-				height: 29
+				x: 1040, y: 36,
+				width: 50,
+				height: 60
 			});
 			break;
 		case 'energyLuma':
@@ -134,16 +141,16 @@ $("#settings input, #settings select").on('change', function() {
 			break;
 	}
 
-	write(24, FONT_HEIGHT * 1, line1);
-	write(24, FONT_HEIGHT * 2, line2);
+	write(FONT_X_PADDING * 2, (FONT_HEIGHT / 2) * 1, line1);
+	write(FONT_X_PADDING * 2, (FONT_HEIGHT / 2) * 3, line2);
 
-	write(0, FONT_HEIGHT * 5, 'Nintendo Switch (ver '+firmware+')');
+	write(FONT_X_PADDING, FONT_HEIGHT * 5, 'Nintendo Switch (ver '+firmware+')');
 
-	write(0, FONT_HEIGHT * 7, 'Main Processor		: Dual-core ARM11 MPCore');
-	write(0, FONT_HEIGHT * 8, 'Memory Testing		: 4194000K OK');
+	write(FONT_X_PADDING, FONT_HEIGHT * 7, 'Main Processor		: Dual-core ARM11 MPCore');
+	write(FONT_X_PADDING, FONT_HEIGHT * 8, 'Memory Testing		: 4194000K OK');
 
-	write(0, FONT_HEIGHT * 9, 'Primary Master		: 32G Internal Storage');
-	write(0, FONT_HEIGHT *10, 'Primary Slave 		: '+ sd +' SD Card');
+	write(FONT_X_PADDING, FONT_HEIGHT * 9, 'Primary Master		: 32G Internal Storage');
+	write(FONT_X_PADDING, FONT_HEIGHT *10, 'Primary Slave 		: '+ sd +' SD Card');
 	
 	if (!use_bootinput)
 		$('input[name=boottool]', "#settings").val($('select[name=boottool] option:selected', "#settings").text());
@@ -161,13 +168,8 @@ $("#settings input, #settings select").on('change', function() {
 	var aux_tool = $('input[name=secondTool]').val();
 	var aux_text = '_Hold ' + aux_keys + ' '+ $('select[name=secondTime] option:selected').text() +'_ to enter _' + aux_tool + '_.';
 	
-	if (boot_bool && !aux_bool)
-		write(0, FONT_HEIGHT * 14, boot_text);
-	else if (boot_bool)
-		write(0, FONT_HEIGHT * 13, boot_text);
-	
-	if (aux_bool)
-		write(0, FONT_HEIGHT * 14, aux_text);
+	if (boot_bool)
+		write(FONT_X_PADDING, CANVAS_HEIGHT - (FONT_HEIGHT * 2), boot_text);
 
 	if (mainCanvas.width() == CANVAS_WIDTH) {
 		mainCanvas.drawImage({
