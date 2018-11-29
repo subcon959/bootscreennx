@@ -38,7 +38,7 @@
 		<form id="settings">
 			<div class="row">
 				<fieldset id="options">
-					<legend>Options</legend>
+					<legend>System Options</legend>
 					<div class="input-field col s6 m2">
 						<select name="firmware">
 							<option value="6.2.0" selected="selected">6.2.0</option>
@@ -60,7 +60,7 @@
 							<option value="2.0.0">2.0.0</option>
 							<option value="1.0.0">1.0.0</option>
 						</select>
-						<label>Firmware</label>
+						<label>Version</label>
 					</div>
 					<div class="input-field col s6 m2">
 						<select name="sd" class="form-control">
@@ -77,15 +77,6 @@
 						<label>SD Card</label>
 					</div>
 					<div class="input-field col s12 m4">
-						<select name="type" class="form-control">
-							<option value="atmosphere" selected="selected">Atmosphere</option>
-							<option value="reinx">ReiNX</option>
-							<option value="rajnx">RajNX</option>
-							<option value="sxos">SX OS</option>
-						</select>
-						<label>CFW Type</label>
-					</div>
-					<div class="input-field col s12 m4">
 						<select name="logoOptions" class="form-control form-control-sm">
 							<option value="noLogo">No Logo</option>
 							<option value="energyStar" selected="selected">Energy Star Logo</option>
@@ -95,6 +86,21 @@
 						<label>Side Logo</label>
 					</div>
 				</fieldset>
+			</div>
+			<div class="row">
+				<fieldset id="options">
+					<legend>Firmware Options</legend>
+					<div class="input-field col s12 m4">
+						<input placeholder="CFW Type" type="text" name="type" val="." style="display: none;" class="form-control form-control-sm" />
+						<input placeholder="CFW Copyright" type="text" name="typecopyright" val="." style="display: none;" class="form-control form-control-sm" />
+						<select name="type" class="form-control form-control-sm">
+							<option value="atmosphere" selected="selected">Atmosphere</option>
+							<option value="reinx">ReiNX</option>
+							<option value="rajnx">RajNX</option>
+							<option value="sxos">SX OS</option>
+							<option value="custom">Custom</option>
+						</select>
+					</div>
 			</div>
 			<div class="row">
 				<fieldset id="otheroptions">
