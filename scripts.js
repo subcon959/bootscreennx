@@ -124,24 +124,6 @@ $("#settings input, #settings select").on('change', function() {
 				height: 60
 			});
 			break;
-		case 'energyLuma':
-			mainCanvas.drawImage({
-				source: 'images/symbols.png',
-				x: 266, y: 16,
-				sWidth: 133,
-				sHeight: 84,
-				sx: 0, sy: 84
-			});
-			break;
-		case 'lumaIcon':
-			mainCanvas.drawImage({
-				source: 'images/symbols.png',
-				x: 266, y: 8,
-				sWidth: 133,
-				sHeight: 84,
-				sx: 0, sy: 84*2
-			});
-			break;
 	}
 	
 	if (!useCustomBootInput)
