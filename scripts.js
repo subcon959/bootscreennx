@@ -51,39 +51,45 @@ $("#settings input, #settings select").on('change', function() {
 	var sd = $('select[name=sd] option:selected', "#settings").val();
 	var type = $('select[name=type] option:selected', "#settings").val();
 	
-	var line1 = $('select[name=type] option:selected', "#settings").text();
-	var line2 = ''; var use_bootinput = false; var use_auxinput = false;
+	var line2 = '';
+	var useCustomBootInput = false;
+	var useCustomCfw = false;
 
 	if ($('select[name=boottool] option:selected', "#settings").val() == 'custom') {
 		$('input[name=boottool]', "#settings").show();
 		$('select[name=boottool]', "#settings").parent().hide();
-		use_bootinput = true;
+		useCustomBootInput = true;
 	}
-	
-	if ($('select[name=secondTool] option:selected', "#settings").val() == 'custom') {
-		$('input[name=secondTool]', "#settings").show();
-		$('select[name=secondTool]', "#settings").parent().hide();
-		use_auxinput = true;
+
+	if ($('select[name=type] option:selected', "#settings").val() == 'custom') {
+		$('input[name=type]', "#settings").show();
+		$('input[name=typecopyright]', "#settings").show();
+		$('select[name=type]', "#settings").parent().hide();
+		useCustomCfw = true;
 	}
 
 	line2 = 'Copyright(C) 2018, ';
-	switch(type) {
-		case 'atmosphere':
-			mainCanvas.attr('width', CANVAS_WIDTH);
-			line2 += 'Team ReSwitched';
-			break;
-		case 'reinx':
-			mainCanvas.attr('width', CANVAS_WIDTH);
-			line2 += 'Rei';
-			break;
-		case 'rajnx':
-			mainCanvas.attr('width', CANVAS_WIDTH);
-			line2 += 'rajkosto';
-			break;
-		case 'sxos':
-			mainCanvas.attr('width', CANVAS_WIDTH);
-			line2 += 'Team Xecuter';
-			break;
+	if(!useCustomCfw){
+		switch(type) {
+			case 'atmosphere':
+				mainCanvas.attr('width', CANVAS_WIDTH);
+				line2 += 'Team ReSwitched';
+				break;
+			case 'reinx':
+				mainCanvas.attr('width', CANVAS_WIDTH);
+				line2 += 'Rei';
+				break;
+			case 'rajnx':
+				mainCanvas.attr('width', CANVAS_WIDTH);
+				line2 += 'rajkosto';
+				break;
+			case 'sxos':
+				mainCanvas.attr('width', CANVAS_WIDTH);
+				line2 += 'Team Xecuter';
+				break;
+		}
+	}else{
+		line2 += $('input[name=typecopyright]', "#settings").val();
 	}
 
 	mainCanvas.clearCanvas().drawRect({
@@ -93,7 +99,7 @@ $("#settings input, #settings select").on('change', function() {
 		height: CANVAS_HEIGHT
 	}).drawImage({
 		source: 'images/symbols.png',
-		x: 1, y: 16,
+		x: 8, y: 16,
 		sWidth: 21,
 		sHeight: 29,
 		width: 42,
@@ -118,27 +124,23 @@ $("#settings input, #settings select").on('change', function() {
 				height: 60
 			});
 			break;
-		case 'energyLuma':
-			mainCanvas.drawImage({
-				source: 'images/symbols.png',
-				x: 266, y: 16,
-				sWidth: 133,
-				sHeight: 84,
-				sx: 0, sy: 84
-			});
-			break;
-		case 'lumaIcon':
-			mainCanvas.drawImage({
-				source: 'images/symbols.png',
-				x: 266, y: 8,
-				sWidth: 133,
-				sHeight: 84,
-				sx: 0, sy: 84*2
-			});
-			break;
 	}
+	
+	if (!useCustomBootInput)
+		$('input[name=boottool]', "#settings").val($('select[name=boottool] option:selected', "#settings").text());
 
-	write(FONT_X_PADDING * 2, (FONT_HEIGHT / 2) * 1, line1);
+	if (!useCustomCfw)
+		$('input[name=type]', "#settings").val($('select[name=type] option:selected', "#settings").text());
+	
+	var boot_bool = $('input[name=hold]', "#settings").is(':checked');
+	var boot_keys = $('select[name=onboot] option:selected', "#settings").val();
+	var boot_tool = $('input[name=boottool]', "#settings").val();
+	var boot_text = '_Hold ' + boot_keys + ' '+ $('select[name=firstTime] option:selected').text() +'_ to enter _' + boot_tool + '_.';
+	
+	if (boot_bool)
+		write(FONT_X_PADDING, CANVAS_HEIGHT - (FONT_HEIGHT * 2), boot_text);
+
+	write(FONT_X_PADDING * 2, (FONT_HEIGHT / 2) * 1, $('input[name=type]', "#settings").val());
 	write(FONT_X_PADDING * 2, (FONT_HEIGHT / 2) * 3, line2);
 
 	write(FONT_X_PADDING, FONT_HEIGHT * 5, 'Nintendo Switch (ver '+firmware+')');
@@ -148,23 +150,6 @@ $("#settings input, #settings select").on('change', function() {
 
 	write(FONT_X_PADDING, FONT_HEIGHT * 9, 'Primary Master		: 32G Internal Storage');
 	write(FONT_X_PADDING, FONT_HEIGHT *10, 'Primary Slave 		: '+ sd +' SD Card');
-	
-	if (!use_bootinput)
-		$('input[name=boottool]', "#settings").val($('select[name=boottool] option:selected', "#settings").text());
-		
-	if (!use_auxinput)
-		$('input[name=secondTool]', "#settings").val($('select[name=secondTool] option:selected', "#settings").text());
-	
-	var boot_bool = $('input[name=hold]', "#settings").is(':checked');
-	var boot_keys = $('select[name=onboot] option:selected', "#settings").val();
-	var boot_tool = $('input[name=boottool]', "#settings").val();
-	var boot_text = '_Hold ' + boot_keys + ' '+ $('select[name=firstTime] option:selected').text() +'_ to enter _' + boot_tool + '_.';
-
-	var aux_keys = $('select[name=secondButton] option:selected').val();
-	var aux_tool = $('input[name=secondTool]').val();
-	
-	if (boot_bool)
-		write(FONT_X_PADDING, CANVAS_HEIGHT - (FONT_HEIGHT * 2), boot_text);
 
 });
 
