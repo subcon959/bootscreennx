@@ -160,32 +160,20 @@ $("#settings input, #settings select").on('change', function() {
 	var boot_tool = $('input[name=boottool]', "#settings").val();
 	var boot_text = '_Hold ' + boot_keys + ' '+ $('select[name=firstTime] option:selected').text() +'_ to enter _' + boot_tool + '_.';
 
-	var aux_bool = $('input[name=secondLine]', "#settings").is(':checked');
 	var aux_keys = $('select[name=secondButton] option:selected').val();
 	var aux_tool = $('input[name=secondTool]').val();
-	var aux_text = '_Hold ' + aux_keys + ' '+ $('select[name=secondTime] option:selected').text() +'_ to enter _' + aux_tool + '_.';
 	
 	if (boot_bool)
 		write(FONT_X_PADDING, CANVAS_HEIGHT - (FONT_HEIGHT * 2), boot_text);
 
-	if (mainCanvas.width() == CANVAS_WIDTH) {
-		mainCanvas.drawImage({
-			source: mainCanvas.getCanvasImage(),
-			x: 400, y: 0
-		});
-	}
-
 });
 
 window.onload = function() {
-	
 	$('canvas').drawImage({
 		source: 'images/symbols.png',
 		x: 0, y: 0,
 		load: function() {
 			$("select[name=firmware]", "#settings").trigger('change');
-			if ($('#offline_warning').is(':hidden'))
-				$('#downloadPNG, #downloadBIN').removeClass('disabled');
 		}
 	});
 	
@@ -198,10 +186,14 @@ $('input[name=auxtool]', "#settings").keyup(function() { $("#settings input").tr
 /* Create a PNG downloadable of the canvas */
 /* global download */
 $('#downloadPNG').click(function() {
-	if (!$(this).hasClass('disabled')) {
-		var filename = (mainCanvas.width() == CANVAS_WIDTH) ? 'splash.png' : 'imagedisplay.png';
-		var filedata = mainCanvas.getCanvasImage();
-		download(filedata, filename, "image/png");
-	}
+	var filename = 'bootlogo.png';
+	var filedata = mainCanvas.getCanvasImage();
+	download(filedata, filename, "image/png");
+});
+
+$('#downloadBMP').click(function() {
+	var filename = 'bootlogo.bmp';
+	var filedata = mainCanvas.getCanvasImage();
+	download(filedata, filename, "image/bmp");
 });
 
