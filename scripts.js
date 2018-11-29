@@ -5,7 +5,6 @@ $.jCanvas.defaults.fromCenter = false;
 const FONT_HEIGHT = 32;
 // The padding from the left of the screen for all text
 const FONT_X_PADDING = 32;
-
 // The width of the main canvas
 const CANVAS_WIDTH = 1280;
 // The height of the main canvas
@@ -47,20 +46,27 @@ var write = function(x, y, text, color = 'gray') {
 
 /* This draw the entire splash screen with any change on the form */
 $("#settings input, #settings select").on('change', function() {
-	var firmware = $('select[name=firmware] option:selected', "#settings").val();
-	var sd = $('select[name=sd] option:selected', "#settings").val();
-	var type = $('select[name=type] option:selected', "#settings").val();
-	
-	var line2 = '';
+	// The Switch firmware version
+	var firmwareVersion = $('select[name=firmware] option:selected', "#settings").val();
+	// The size of the SD card
+	var sdSize = $('select[name=sd] option:selected', "#settings").val();
+	// The type of CFW, given it has not been customised by the user
+	var cfwType = $('select[name=type] option:selected', "#settings").val();
+	// Text on the copyright line
+	var copyrightLine = '';
+	// Whether to draw the custom bootloader given by the user
 	var useCustomBootInput = false;
+	// Whether to draw the custom CFW, and Copyright info, given by the user
 	var useCustomCfw = false;
 
+	// Changes selection box in input for custom bootloader
 	if ($('select[name=boottool] option:selected', "#settings").val() == 'custom') {
 		$('input[name=boottool]', "#settings").show();
 		$('select[name=boottool]', "#settings").parent().hide();
 		useCustomBootInput = true;
 	}
 
+	// Changes selection box in input for custom CFW
 	if ($('select[name=type] option:selected', "#settings").val() == 'custom') {
 		$('input[name=type]', "#settings").show();
 		$('input[name=typecopyright]', "#settings").show();
@@ -68,30 +74,32 @@ $("#settings input, #settings select").on('change', function() {
 		useCustomCfw = true;
 	}
 
-	line2 = 'Copyright(C) 2018, ';
+	// Format the copyright line based on the users selection or custom input
+	copyrightLine = 'Copyright(C) 2018, ';
 	if(!useCustomCfw){
-		switch(type) {
+		switch(cfwType) {
 			case 'atmosphere':
 				mainCanvas.attr('width', CANVAS_WIDTH);
-				line2 += 'Team ReSwitched';
+				copyrightLine += 'Team ReSwitched';
 				break;
 			case 'reinx':
 				mainCanvas.attr('width', CANVAS_WIDTH);
-				line2 += 'Rei';
+				copyrightLine += 'Rei';
 				break;
 			case 'rajnx':
 				mainCanvas.attr('width', CANVAS_WIDTH);
-				line2 += 'rajkosto';
+				copyrightLine += 'rajkosto';
 				break;
 			case 'sxos':
 				mainCanvas.attr('width', CANVAS_WIDTH);
-				line2 += 'Team Xecuter';
+				copyrightLine += 'Team Xecuter';
 				break;
 		}
 	}else{
-		line2 += $('input[name=typecopyright]', "#settings").val();
+		copyrightLine += $('input[name=typecopyright]', "#settings").val();
 	}
 
+	// Draw the "little man" logo on the left side of the screen
 	mainCanvas.clearCanvas().drawRect({
 		fillStyle: 'black',
 		x: 0, y: 0,
@@ -107,6 +115,7 @@ $("#settings input, #settings select").on('change', function() {
 		sx: 40, sy: 10
 	});
 	
+	// Draw the chosen logo to the right side of the screen
 	switch ($('select[name=logoOptions] option:selected', "#settings").val()) {
 		case 'energyStar':
 			mainCanvas.drawImage({
@@ -126,30 +135,36 @@ $("#settings input, #settings select").on('change', function() {
 			break;
 	}
 	
+	// Set the custom bootloader input box to the users last selection
 	if (!useCustomBootInput)
 		$('input[name=boottool]', "#settings").val($('select[name=boottool] option:selected', "#settings").text());
 
+	// Set the custom cfw input box to the users last selection
 	if (!useCustomCfw)
 		$('input[name=type]', "#settings").val($('select[name=type] option:selected', "#settings").text());
 	
-	var boot_bool = $('input[name=hold]', "#settings").is(':checked');
-	var boot_keys = $('select[name=onboot] option:selected', "#settings").val();
-	var boot_tool = $('input[name=boottool]', "#settings").val();
-	var boot_text = '_Hold ' + boot_keys + ' '+ $('select[name=firstTime] option:selected').text() +'_ to enter _' + boot_tool + '_.';
+	// Whether or not to display the bootloader message at the bottom of the screen
+	var shouldDrawCustomBootString = $('input[name=hold]', "#settings").is(':checked');
+	// The key to be held when entering the bootloader
+	var bootloaderKey = $('select[name=onboot] option:selected', "#settings").val();
+	// The bootloader to enter when the user presses the boot key
+	var bootloader = $('input[name=boottool]', "#settings").val();
+	// The formatted string from the previous boot variables
+	var bootloaderText = '_Hold ' + bootloaderKey + ' '+ $('select[name=firstTime] option:selected').text() +'_ to enter _' + bootloader + '_.';
 	
-	if (boot_bool)
-		write(FONT_X_PADDING, CANVAS_HEIGHT - (FONT_HEIGHT * 2), boot_text);
+	if (shouldDrawCustomBootString)
+		write(FONT_X_PADDING, CANVAS_HEIGHT - (FONT_HEIGHT * 2), bootloaderText);
 
 	write(FONT_X_PADDING * 2, (FONT_HEIGHT / 2) * 1, $('input[name=type]', "#settings").val());
-	write(FONT_X_PADDING * 2, (FONT_HEIGHT / 2) * 3, line2);
+	write(FONT_X_PADDING * 2, (FONT_HEIGHT / 2) * 3, copyrightLine);
 
-	write(FONT_X_PADDING, FONT_HEIGHT * 5, 'Nintendo Switch (ver '+firmware+')');
+	write(FONT_X_PADDING, FONT_HEIGHT * 5, 'Nintendo Switch (ver '+firmwareVersion+')');
 
 	write(FONT_X_PADDING, FONT_HEIGHT * 7, 'Main Processor		: Dual-core ARM11 MPCore');
 	write(FONT_X_PADDING, FONT_HEIGHT * 8, 'Memory Testing		: 4194000K OK');
 
 	write(FONT_X_PADDING, FONT_HEIGHT * 9, 'Primary Master		: 32G Internal Storage');
-	write(FONT_X_PADDING, FONT_HEIGHT *10, 'Primary Slave 		: '+ sd +' SD Card');
+	write(FONT_X_PADDING, FONT_HEIGHT *10, 'Primary Slave 		: '+ sdSize +' SD Card');
 
 });
 
@@ -165,17 +180,17 @@ window.onload = function() {
 };
 
 $('input[name=boottool]', "#settings").keyup(function() { $("#settings input").trigger('change'); });
-$('input[name=auxtool]', "#settings").keyup(function() { $("#settings input").trigger('change'); });
+$('input[name=type]', "#settings").keyup(function() { $("#settings input").trigger('change'); });
+$('input[name=typecopyright]', "#settings").keyup(function() { $("#settings input").trigger('change'); });
 
-
-/* Create a PNG downloadable of the canvas */
-/* global download */
+// Creates a downloadable PNG of the canvas
 $('#downloadPNG').click(function() {
 	var filename = 'bootlogo.png';
 	var filedata = mainCanvas.getCanvasImage();
 	download(filedata, filename, "image/png");
 });
 
+// Creates a downloadable BMP of the canvas
 $('#downloadBMP').click(function() {
 	var filename = 'bootlogo.bmp';
 	var filedata = mainCanvas.getCanvasImage();
