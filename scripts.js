@@ -1,6 +1,19 @@
 /* global $ */
 $.jCanvas.defaults.fromCenter = false;
 
+// The vertical distance between where strings are drawn
+const FONT_HEIGHT = 32;
+// The padding from the left of the screen for all text
+const FONT_X_PADDING = 32;
+
+// The width of the main canvas
+const CANVAS_WIDTH = 1280;
+// The height of the main canvas
+const CANVAS_HEIGHT = 720;
+
+// The canvas that all information is drawn to
+var mainCanvas = $('#topscreen');
+
 /* jCanvas has an option for write full strings but don't have a option for control letter spacing.
 The font has a letter spacing of 2px, and the generator needs a spacing of 1px.
 This function allows to write character by character with only 1px of spacing. */
@@ -17,10 +30,10 @@ var write = function(x, y, text, color = 'gray') {
 		}
 
 		/* Draw 1 character */
-		$('#topscreen').drawText({
+		mainCanvas.drawText({
 			fillStyle: color,
 			x: x+2, y: y,
-			fontSize: 16,
+			fontSize: 32,
 			fontFamily: 'PerfectDOSVGA437Win',
 			align: 'left',
 			text: letter
@@ -28,21 +41,18 @@ var write = function(x, y, text, color = 'gray') {
 	
 		/* Remove the character writed from the string, and if itn't empty, continue recursive */
 		text = text.substr(1);
-		x = x + 8;
+		x = x + 16;
 	}
 }
 
 /* This draw the entire splash screen with any change on the form */
 $("#settings input, #settings select").on('change', function() {
-	var $topscreen = $('#topscreen');
-	
-	var model = $('input[name=model]:checked', "#settings").val();
-	var region = $('select[name=region] option:selected', "#settings").val();
+	var firmware = $('select[name=firmware] option:selected', "#settings").val();
 	var sd = $('select[name=sd] option:selected', "#settings").val();
 	var type = $('select[name=type] option:selected', "#settings").val();
 	
 	var line1 = $('select[name=type] option:selected', "#settings").text();
-	var line2 = ''; var processor = 0; var use_bootinput = false; var use_auxinput = false;
+	var line2 = ''; var use_bootinput = false; var use_auxinput = false;
 
 	if ($('select[name=boottool] option:selected', "#settings").val() == 'custom') {
 		$('input[name=boottool]', "#settings").show();
@@ -56,59 +66,60 @@ $("#settings input, #settings select").on('change', function() {
 		use_auxinput = true;
 	}
 
+	line2 = 'Copyright(C) 2018, ';
 	switch(type) {
-		case 'luma2016':
-			$topscreen.attr('width', 400);
-			line2 = 'Copyright(C) 2016, AuroraWright';
+		case 'atmosphere':
+			mainCanvas.attr('width', CANVAS_WIDTH);
+			line2 += 'Team ReSwitched';
 			break;
-		case 'luma2017':
-			$topscreen.attr('width', 400);
-			line2 = 'Copyright(C) 2017, AuroraWright';
+		case 'reinx':
+			mainCanvas.attr('width', CANVAS_WIDTH);
+			line2 += 'Rei';
 			break;
-		case 'luma2018':
-			$topscreen.attr('width', 400);
-			line2 = 'Copyright(C) 2018, AuroraWright';
+		case 'rajnx':
+			mainCanvas.attr('width', CANVAS_WIDTH);
+			line2 += 'rajkosto';
 			break;
-		case 'menuhax2015':
-			$topscreen.attr('width', 800);
-			line2 = 'Copyright(C) 2015, yellow8';
-			break;
-		case 'menuhax2016':
-			$topscreen.attr('width', 800);
-			line2 = 'Copyright(C) 2016, yellow8';
+		case 'sxos':
+			mainCanvas.attr('width', CANVAS_WIDTH);
+			line2 += 'Team Xecuter';
 			break;
 	}
 
-	$topscreen.clearCanvas().drawRect({
+	mainCanvas.clearCanvas().drawRect({
 		fillStyle: 'black',
 		x: 0, y: 0,
-		width: 400,
-		height: 240
+		width: CANVAS_WIDTH,
+		height: CANVAS_HEIGHT
 	}).drawImage({
 		source: 'images/symbols.png',
 		x: 1, y: 16,
 		sWidth: 21,
 		sHeight: 29,
+		width: 42,
+		height: 58,
 		sx: 40, sy: 10
 	});
 	
 	switch ($('select[name=logoOptions] option:selected', "#settings").val()) {
 		case 'energyStar':
-			$topscreen.drawImage({
+			mainCanvas.drawImage({
 				source: 'images/symbols.png',
-				x: 266, y: 16,
+				x: 966, y: 16,
 				sWidth: 133,
 				sHeight: 84,
+				width: 266,
+				height: 168,
 				sx: 0, sy: 0
-			}).drawRect({
+			}).drawRect({ // Cover the little blue man in the energy star logo
 				fillStyle: 'black',
-				x: 306, y: 26,
-				width: 21,
-				height: 29
+				x: 1040, y: 36,
+				width: 50,
+				height: 60
 			});
 			break;
 		case 'energyLuma':
-			$topscreen.drawImage({
+			mainCanvas.drawImage({
 				source: 'images/symbols.png',
 				x: 266, y: 16,
 				sWidth: 133,
@@ -117,7 +128,7 @@ $("#settings input, #settings select").on('change', function() {
 			});
 			break;
 		case 'lumaIcon':
-			$topscreen.drawImage({
+			mainCanvas.drawImage({
 				source: 'images/symbols.png',
 				x: 266, y: 8,
 				sWidth: 133,
@@ -127,58 +138,16 @@ $("#settings input, #settings select").on('change', function() {
 			break;
 	}
 
-	write(24, 16*1, line1);
-	write(24, 16*2, line2);
+	write(FONT_X_PADDING * 2, (FONT_HEIGHT / 2) * 1, line1);
+	write(FONT_X_PADDING * 2, (FONT_HEIGHT / 2) * 3, line2);
 
-	switch(model) {
-		case '3DS':
-			write(0, 16*5, 'Nintendo 3DS CTR-001('+region+')');
-			processor = 2; sd += ' SD'
-			break;
-		case '3DSXL':
-			if (region == 'JPN')
-				write(0, 16*5, 'Nintendo 3DS LL SPR-001('+region+')');
-			else
-				write(0, 16*5, 'Nintendo 3DS XL SPR-001('+region+')');
-			processor = 2; sd += ' SD'
-			break;
-		case '2DS':
-			write(0, 16*5, 'Nintendo 2DS FTR-001('+region+')');
-			processor = 2; sd += ' SD'
-			break;
-		case 'n2DSXL':
-			if (region == 'JPN')
-				write(0, 16*5, 'New Nintendo 2DS LL JAN-001('+region+')');
-			else
-				write(0, 16*5, 'New Nintendo 2DS XL JAN-001('+region+')');
-			processor = 4; sd += ' microSD'
-			break;
-		case 'n3DS':
-			write(0, 16*5, 'New Nintendo 3DS KTR-001('+region+')');
-			processor = 4; sd += ' microSD'
-			break;
-		case 'n3DSXL':
-			if (region == 'JPN')
-				write(0, 16*5, 'New Nintendo 3DS LL RED-001('+region+')');
-			else
-				write(0, 16*5, 'New Nintendo 3DS XL RED-001('+region+')');
-			processor = 4; sd += ' microSD'
-			break;
-	}
+	write(FONT_X_PADDING, FONT_HEIGHT * 5, 'Nintendo Switch (ver '+firmware+')');
 
-	switch(processor) {
-		case 2:
-			write(0, 16*7, 'Main Processor       : Dual-core ARM11 MPCore');
-			write(0, 16*8, 'Memory Testing       : 131072K OK');
-			break;
-		case 4:
-			write(0, 16*7, 'Main Processor       : Quad-core ARM11 MPCore');
-			write(0, 16*8, 'Memory Testing       : 262144K OK');
-			break;
-	}
+	write(FONT_X_PADDING, FONT_HEIGHT * 7, 'Main Processor		: Dual-core ARM11 MPCore');
+	write(FONT_X_PADDING, FONT_HEIGHT * 8, 'Memory Testing		: 4194000K OK');
 
-	write(0, 16*9,  'Detecting Primary Master ... '+ processor/2 +'G Internal Memory');
-	write(0, 16*10, 'Detecting Primary Slave  ... '+ sd +' Card');
+	write(FONT_X_PADDING, FONT_HEIGHT * 9, 'Primary Master		: 32G Internal Storage');
+	write(FONT_X_PADDING, FONT_HEIGHT *10, 'Primary Slave 		: '+ sd +' SD Card');
 	
 	if (!use_bootinput)
 		$('input[name=boottool]', "#settings").val($('select[name=boottool] option:selected', "#settings").text());
@@ -191,37 +160,20 @@ $("#settings input, #settings select").on('change', function() {
 	var boot_tool = $('input[name=boottool]', "#settings").val();
 	var boot_text = '_Hold ' + boot_keys + ' '+ $('select[name=firstTime] option:selected').text() +'_ to enter _' + boot_tool + '_.';
 
-	var aux_bool = $('input[name=secondLine]', "#settings").is(':checked');
 	var aux_keys = $('select[name=secondButton] option:selected').val();
 	var aux_tool = $('input[name=secondTool]').val();
-	var aux_text = '_Hold ' + aux_keys + ' '+ $('select[name=secondTime] option:selected').text() +'_ to enter _' + aux_tool + '_.';
 	
-	if (boot_bool && !aux_bool)
-		write(0, 16*14, boot_text);
-	else if (boot_bool)
-		write(0, 16*13, boot_text);
-	
-	if (aux_bool)
-		write(0, 16*14, aux_text);
-
-	if ($topscreen.width() == 800) {
-		$topscreen.drawImage({
-			source: $topscreen.getCanvasImage(),
-			x: 400, y: 0
-		});
-	}
+	if (boot_bool)
+		write(FONT_X_PADDING, CANVAS_HEIGHT - (FONT_HEIGHT * 2), boot_text);
 
 });
 
 window.onload = function() {
-	
 	$('canvas').drawImage({
 		source: 'images/symbols.png',
 		x: 0, y: 0,
 		load: function() {
-			$("select[name=region]", "#settings").trigger('change');
-			if ($('#offline_warning').is(':hidden'))
-				$('#downloadPNG, #downloadBIN').removeClass('disabled');
+			$("select[name=firmware]", "#settings").trigger('change');
 		}
 	});
 	
@@ -234,37 +186,14 @@ $('input[name=auxtool]', "#settings").keyup(function() { $("#settings input").tr
 /* Create a PNG downloadable of the canvas */
 /* global download */
 $('#downloadPNG').click(function() {
-	if (!$(this).hasClass('disabled')) {
-		var filename = ($('#topscreen').width() == 400) ? 'splash.png' : 'imagedisplay.png';
-		var filedata = $('#topscreen').getCanvasImage();
-		download(filedata, filename, "image/png");
-	}
+	var filename = 'bootlogo.png';
+	var filedata = mainCanvas.getCanvasImage();
+	download(filedata, filename, "image/png");
 });
 
-$('#downloadBIN').click(function() {
-	if (!$(this).hasClass('disabled')) {
-		var filename = ($('#topscreen').width() == 400) ? 'splash.bin' : 'menuhax_imagedisplay.bin';
-		
-		var width = $('#topscreen').height();
-		var height = $('#topscreen').width();
-		
-		var $canvas = $('<canvas/>').css({ position: 'absolute', top: 0, left: -1*width }).appendTo('body');
-		$canvas.attr('width', width).attr('height', height);
-
-		$canvas.drawImage({
-			source: $('#topscreen').getCanvasImage(),
-			x: width/2, y: height/2,
-			fromCenter: true,
-			rotate: 90
-		});
-
-		var canvasdata = $canvas.get(0).getContext('2d').getImageData(0, 0, width, height).data;
-		var filedata = '';
-		
-		for(var i = 0; i < canvasdata.length; i += 4)
-			filedata += String.fromCharCode(canvasdata[i+2], canvasdata[i+1], canvasdata[i]);
-
-		$canvas.remove();
-		download('data:application/octet-stream;base64,' + window.btoa(filedata), filename);
-	}
+$('#downloadBMP').click(function() {
+	var filename = 'bootlogo.bmp';
+	var filedata = mainCanvas.getCanvasImage();
+	download(filedata, filename, "image/bmp");
 });
+
