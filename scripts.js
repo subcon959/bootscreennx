@@ -1,7 +1,18 @@
 /* global $ */
 $.jCanvas.defaults.fromCenter = false;
+
+// The vertical distance between where strings are drawn
 const FONT_HEIGHT = 32;
+// The width of the main canvas
+const CANVAS_WIDTH = 1280;
+// The height of the main canvas
+const CANVAS_HEIGHT = 720;
+
+// The canvas that all information is drawn to
 var mainCanvas = $('#topscreen');
+
+mainCanvas.width = CANVAS_WIDTH;
+mainCanvas.height = CANVAS_HEIGHT;
 
 /* jCanvas has an option for write full strings but don't have a option for control letter spacing.
 The font has a letter spacing of 2px, and the generator needs a spacing of 1px.
@@ -57,23 +68,23 @@ $("#settings input, #settings select").on('change', function() {
 
 	switch(type) {
 		case 'luma2016':
-			mainCanvas.attr('width', 400);
+			mainCanvas.attr('width', CANVAS_WIDTH);
 			line2 = 'Copyright(C) 2016, AuroraWright';
 			break;
 		case 'luma2017':
-			mainCanvas.attr('width', 400);
+			mainCanvas.attr('width', CANVAS_WIDTH);
 			line2 = 'Copyright(C) 2017, AuroraWright';
 			break;
 		case 'luma2018':
-			mainCanvas.attr('width', 400);
+			mainCanvas.attr('width', CANVAS_WIDTH);
 			line2 = 'Copyright(C) 2018, AuroraWright';
 			break;
 		case 'menuhax2015':
-			mainCanvas.attr('width', 800);
+			mainCanvas.attr('width', CANVAS_WIDTH);
 			line2 = 'Copyright(C) 2015, yellow8';
 			break;
 		case 'menuhax2016':
-			mainCanvas.attr('width', 800);
+			mainCanvas.attr('width', CANVAS_WIDTH);
 			line2 = 'Copyright(C) 2016, yellow8';
 			break;
 	}
@@ -81,8 +92,8 @@ $("#settings input, #settings select").on('change', function() {
 	mainCanvas.clearCanvas().drawRect({
 		fillStyle: 'black',
 		x: 0, y: 0,
-		width: 400,
-		height: 240
+		width: CANVAS_WIDTH,
+		height: CANVAS_HEIGHT
 	}).drawImage({
 		source: 'images/symbols.png',
 		x: 1, y: 16,
@@ -162,7 +173,7 @@ $("#settings input, #settings select").on('change', function() {
 	if (aux_bool)
 		write(0, FONT_HEIGHT * 14, aux_text);
 
-	if (mainCanvas.width() == 800) {
+	if (mainCanvas.width() == CANVAS_WIDTH) {
 		mainCanvas.drawImage({
 			source: mainCanvas.getCanvasImage(),
 			x: 400, y: 0
@@ -193,36 +204,8 @@ $('input[name=auxtool]', "#settings").keyup(function() { $("#settings input").tr
 /* global download */
 $('#downloadPNG').click(function() {
 	if (!$(this).hasClass('disabled')) {
-		var filename = (mainCanvas.width() == 400) ? 'splash.png' : 'imagedisplay.png';
+		var filename = (mainCanvas.width() == CANVAS_WIDTH) ? 'splash.png' : 'imagedisplay.png';
 		var filedata = mainCanvas.getCanvasImage();
 		download(filedata, filename, "image/png");
-	}
-});
-
-$('#downloadBIN').click(function() {
-	if (!$(this).hasClass('disabled')) {
-		var filename = (mainCanvas.width() == 400) ? 'splash.bin' : 'menuhax_imagedisplay.bin';
-		
-		var width = mainCanvas.height();
-		var height = mainCanvas.width();
-		
-		var $canvas = $('<canvas/>').css({ position: 'absolute', top: 0, left: -1*width }).appendTo('body');
-		$canvas.attr('width', width).attr('height', height);
-
-		$canvas.drawImage({
-			source: mainCanvas.getCanvasImage(),
-			x: width/2, y: height/2,
-			fromCenter: true,
-			rotate: 90
-		});
-
-		var canvasdata = $canvas.get(0).getContext('2d').getImageData(0, 0, width, height).data;
-		var filedata = '';
-		
-		for(var i = 0; i < canvasdata.length; i += 4)
-			filedata += String.fromCharCode(canvasdata[i+2], canvasdata[i+1], canvasdata[i]);
-
-		$canvas.remove();
-		download('data:application/octet-stream;base64,' + window.btoa(filedata), filename);
 	}
 });
