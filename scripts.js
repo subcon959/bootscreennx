@@ -141,13 +141,12 @@ $("#settings input, #settings select").on('change', function() {
 	write(24, FONT_HEIGHT * 2, line2);
 
 	write(0, FONT_HEIGHT * 5, 'Nintendo Switch (ver '+firmware+')');
-	sd += ' SD'
 
 	write(0, FONT_HEIGHT * 7, 'Main Processor		: Dual-core ARM11 MPCore');
 	write(0, FONT_HEIGHT * 8, 'Memory Testing		: 4194000K OK');
 
 	write(0, FONT_HEIGHT * 9, 'Primary Master		: 32G Internal Storage');
-	write(0, FONT_HEIGHT *10, 'Primary Slave 		: '+ sd +' Card');
+	write(0, FONT_HEIGHT *10, 'Primary Slave 		: '+ sd +' SD Card');
 	
 	if (!use_bootinput)
 		$('input[name=boottool]', "#settings").val($('select[name=boottool] option:selected', "#settings").text());
