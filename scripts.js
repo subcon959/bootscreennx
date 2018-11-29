@@ -66,26 +66,23 @@ $("#settings input, #settings select").on('change', function() {
 		use_auxinput = true;
 	}
 
+	line2 = 'Copyright(C) 2018, ';
 	switch(type) {
-		case 'luma2016':
+		case 'atmosphere':
 			mainCanvas.attr('width', CANVAS_WIDTH);
-			line2 = 'Copyright(C) 2016, AuroraWright';
+			line2 += 'Team ReSwitched';
 			break;
-		case 'luma2017':
+		case 'reinx':
 			mainCanvas.attr('width', CANVAS_WIDTH);
-			line2 = 'Copyright(C) 2017, AuroraWright';
+			line2 += 'Rei';
 			break;
-		case 'luma2018':
+		case 'rajnx':
 			mainCanvas.attr('width', CANVAS_WIDTH);
-			line2 = 'Copyright(C) 2018, AuroraWright';
+			line2 += 'rajkosto';
 			break;
-		case 'menuhax2015':
+		case 'sxos':
 			mainCanvas.attr('width', CANVAS_WIDTH);
-			line2 = 'Copyright(C) 2015, yellow8';
-			break;
-		case 'menuhax2016':
-			mainCanvas.attr('width', CANVAS_WIDTH);
-			line2 = 'Copyright(C) 2016, yellow8';
+			line2 += 'Team Xecuter';
 			break;
 	}
 
