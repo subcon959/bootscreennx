@@ -1,14 +1,6 @@
 /* global $ */
 $.jCanvas.defaults.fromCenter = false;
 
-/* .getCanvasImage() don't work on Google Chrome if the page is served from a file URL (file://).
-This is a limitation of Google Chrome’s sandboxing architecture, and therefore cannot be fixed */ 
-if (window.location.protocol == 'file:' && window.navigator.vendor == "Google Inc.") {
-	$('#offline_warning').show();
-	$('select[name=type] option[value=menuhax2015]', "#settings").prop('disabled', true);
-	$('select[name=type] option[value=menuhax2016]', "#settings").prop('disabled', true);
-}
-
 /* jCanvas has an option for write full strings but don't have a option for control letter spacing.
 The font has a letter spacing of 2px, and the generator needs a spacing of 1px.
 This function allows to write character by character with only 1px of spacing. */
