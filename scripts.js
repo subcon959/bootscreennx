@@ -35,8 +35,6 @@ var write = function(x, y, text, color = 'gray') {
 /* This draw the entire splash screen with any change on the form */
 $("#settings input, #settings select").on('change', function() {
 	var $topscreen = $('#topscreen');
-	
-	var model = $('input[name=model]:checked', "#settings").val();
 	var region = $('select[name=region] option:selected', "#settings").val();
 	var sd = $('select[name=sd] option:selected', "#settings").val();
 	var type = $('select[name=type] option:selected', "#settings").val();
@@ -130,41 +128,8 @@ $("#settings input, #settings select").on('change', function() {
 	write(24, 16*1, line1);
 	write(24, 16*2, line2);
 
-	switch(model) {
-		case '3DS':
-			write(0, 16*5, 'Nintendo 3DS CTR-001('+region+')');
-			processor = 2; sd += ' SD'
-			break;
-		case '3DSXL':
-			if (region == 'JPN')
-				write(0, 16*5, 'Nintendo 3DS LL SPR-001('+region+')');
-			else
-				write(0, 16*5, 'Nintendo 3DS XL SPR-001('+region+')');
-			processor = 2; sd += ' SD'
-			break;
-		case '2DS':
-			write(0, 16*5, 'Nintendo 2DS FTR-001('+region+')');
-			processor = 2; sd += ' SD'
-			break;
-		case 'n2DSXL':
-			if (region == 'JPN')
-				write(0, 16*5, 'New Nintendo 2DS LL JAN-001('+region+')');
-			else
-				write(0, 16*5, 'New Nintendo 2DS XL JAN-001('+region+')');
-			processor = 4; sd += ' microSD'
-			break;
-		case 'n3DS':
-			write(0, 16*5, 'New Nintendo 3DS KTR-001('+region+')');
-			processor = 4; sd += ' microSD'
-			break;
-		case 'n3DSXL':
-			if (region == 'JPN')
-				write(0, 16*5, 'New Nintendo 3DS LL RED-001('+region+')');
-			else
-				write(0, 16*5, 'New Nintendo 3DS XL RED-001('+region+')');
-			processor = 4; sd += ' microSD'
-			break;
-	}
+	write(0, 16*5, 'Nintendo Switch ('+region+')');
+	processor = 2; sd += ' SD'
 
 	switch(processor) {
 		case 2:
