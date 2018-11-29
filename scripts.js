@@ -14,9 +14,6 @@ const CANVAS_HEIGHT = 720;
 // The canvas that all information is drawn to
 var mainCanvas = $('#topscreen');
 
-mainCanvas.width = CANVAS_WIDTH;
-mainCanvas.height = CANVAS_HEIGHT;
-
 /* jCanvas has an option for write full strings but don't have a option for control letter spacing.
 The font has a letter spacing of 2px, and the generator needs a spacing of 1px.
 This function allows to write character by character with only 1px of spacing. */

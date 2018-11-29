@@ -1,45 +1,45 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Old School PC BIOS - Splash Bootscreen Generator</title>
-	
+
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Roboto:100,300,400,500,600|Material+Icons" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css" />
 	<link rel="stylesheet" href="webfont/PerfectDOSVGA437Win.css">
 	<link rel="stylesheet" href="styles.css">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 	<meta property="og:title" content="Old School PC BIOS" />
-	<meta property="og:description" content="Splash Bootscreen Generator for Switch CFW" /> 
+	<meta property="og:description" content="Splash Bootscreen Generator for Switch CFW" />
 	<meta property="og:image" content="https://www.gravatar.com/avatar/8d74b30f162502dcf45623e721b2bd20.png?s=600" />
-	<meta property="og:url" content="https://sebascontre.github.io/bootscreen3ds/" />
-	
+	<meta property="og:url" content="https://github.com/HarryPeach/bootscreennx" />
+
 	<!--[if lt IE 9]>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
 	<![endif]-->
 </head>
+
 <body>
-	<a href="https://github.com/sebascontre/bootscreen3ds">
+	<a href="https://github.com/HarryPeach/bootscreennx">
 		<img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
 	</a>
-	
+
 	<div class="container">
 		<h1>Old School PC BIOS</h1>
 		<p id="subtitle">Splash Bootscreen Generator</p>
-		
-		
-		
-		
-		<p id="credit">originally created by 
-			<a href="https://twitter.com/sebascontre" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="idea and coding">@sebascontre</a> +
+
+		<p id="credit">originally created by
+			<a href="https://twitter.com/sebascontre" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="idea and coding">@sebascontre</a>
+			+
 			<a href="https://twitter.com/yopalonso" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="3DS pixel art">@yopalonso</a><br>
-		updated for Nintendo Switch by <a href="https://github.com/HarryPeach">HarryPeach</a></p>
+			updated for Nintendo Switch by <a href="https://github.com/HarryPeach">HarryPeach</a></p>
 
 		<form id="settings">
 			<div class="row">
 				<fieldset id="options">
-					<legend >Options</legend>
+					<legend>Options</legend>
 					<div class="input-field col s6 m2">
 						<select name="firmware">
 							<option value="6.2.0" selected="selected">6.2.0</option>
@@ -103,51 +103,49 @@
 					<p>
 						<input type="checkbox" class="filled-in" id="hold" name="hold" checked="checked" />
 						<label for="hold"></label>
-							<span><strong>Hold</strong></span>
-							<span class="input-field inline">
-								<select name="onboot" class="form-control form-control-sm">
-									<option value="VOL DOWN" selected="selected">VOL DOWN</option>
-									<option value="VOL UP">VOL UP</option>
-									<option value="L">L</option>
-									<option value="R">R</option>
-									<option value="A">A</option>
-									<option value="B">B</option>
-									<option value="X">X</option>
-									<option value="Y">Y</option>
-									<option value="UP">UP</option>
-									<option value="DOWN">DOWN</option>
-									<option value="LEFT">LEFT</option>
-									<option value="RIGHT">RIGHT</option>
-									<option value="START">START</option>
-									<option value="SELECT">SELECT</option>
-									<option value="HOME">HOME</option>
-								</select>
-							</span>
-							<span class="input-field inline">
-								<select name="firstTime" class="form-control form-control-sm">
-									<option value="now">now</option>
-									<option value="boot" selected="selected">on boot</option>
-								</select>
-							</span> <span>to enter</span>
-							<span class="input-field inline">
-								<input type="text" name="boottool" val="." style="display: none;" class="form-control form-control-sm" />
-								<select name="boottool" class="form-control form-control-sm">
-									<option value="bootloader" selected="selected">Bootloader</option>
-									<option value="hekate">Hekate</option>
-									<option value="custom"><em>Custom</em></option>
-								</select>
-							</span>
+						<span><strong>Hold</strong></span>
+						<span class="input-field inline">
+							<select name="onboot" class="form-control form-control-sm">
+								<option value="VOL DOWN" selected="selected">VOL DOWN</option>
+								<option value="VOL UP">VOL UP</option>
+								<option value="L">L</option>
+								<option value="R">R</option>
+								<option value="A">A</option>
+								<option value="B">B</option>
+								<option value="X">X</option>
+								<option value="Y">Y</option>
+								<option value="UP">UP</option>
+								<option value="DOWN">DOWN</option>
+								<option value="LEFT">LEFT</option>
+								<option value="RIGHT">RIGHT</option>
+								<option value="START">START</option>
+								<option value="SELECT">SELECT</option>
+								<option value="HOME">HOME</option>
+							</select>
+						</span>
+						<span class="input-field inline">
+							<select name="firstTime" class="form-control form-control-sm">
+								<option value="now">now</option>
+								<option value="boot" selected="selected">on boot</option>
+							</select>
+						</span> <span>to enter</span>
+						<span class="input-field inline">
+							<input type="text" name="boottool" val="." style="display: none;" class="form-control form-control-sm" />
+							<select name="boottool" class="form-control form-control-sm">
+								<option value="hekate" selected="selected">Hekate</option>
+								<option value="bootloader">Bootloader</option>
+								<option value="custom"><em>Custom</em></option>
+							</select>
+						</span>
 						</label>
 					</p>
 				</fieldset>
 			</div>
 		</form>
-	
-		<center><canvas width="1280" height="720" id="topscreen"></canvas></center>
-		<center>
-			<a id="downloadPNG" class="btn btn-primary disabled" href="#png" role="button">Download PNG</a>
-			<a id="downloadBIN" class="btn btn-primary disabled" href="#bin" role="button">Download BIN</a>
-		</center>
+
+		<canvas width="1280" height="720" id="topscreen"></canvas>
+		<a id="downloadPNG" class="btn btn-primary disabled" href="#png" role="button">Download PNG</a>
+		<a id="downloadBIN" class="btn btn-primary disabled" href="#bin" role="button">Download BIN</a>
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -156,10 +154,11 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
 	<script src="scripts.js"></script>
 	<script type="text/javascript">
-$(document).ready(function() {
-    $('select').material_select();
-  });
-            
+		$(document).ready(function () {
+			$('select').material_select();
+		});
+
 	</script>
 </body>
+
 </html>
