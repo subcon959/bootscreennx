@@ -133,6 +133,28 @@ $("#settings input, #settings select").on('change', function() {
 				height: 60
 			});
 			break;
+		case 'energyStarAtmosphere':
+			mainCanvas.drawImage({
+				source: 'images/symbols.png',
+				x: 966, y: 16,
+				sWidth: 133,
+				sHeight: 84,
+				width: 266,
+				height: 168,
+				sx: 0, sy: 84
+			});
+			break;
+		case 'atmosphere':
+			mainCanvas.drawImage({
+				source: 'images/symbols.png',
+				x: 1100, y: 16,
+				sWidth: 101,
+				sHeight: 84,
+				width: 151,
+				height: 134,
+				sx: 30, sy: 168
+			});
+			break;
 	}
 	
 	// Set the custom bootloader input box to the users last selection

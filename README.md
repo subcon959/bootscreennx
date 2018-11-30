@@ -11,4 +11,7 @@ Old School BIOS Generator for Hekate/Fusée on Switch
 
 4. Place bootlogo.bmp into the root of your SD card
 
-Licensed under the MIT license (See LICENSE.md)
+## Licensing
+
+    Licensed under the MIT license (See LICENSE.md)
+    The Atmosphère logo is property of Team ReSwitched 2018, licensed under the GNU GPL v2.0
