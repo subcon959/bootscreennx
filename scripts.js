@@ -160,7 +160,7 @@ $("#settings input, #settings select").on('change', function() {
 
 	write(FONT_X_PADDING, FONT_HEIGHT * 5, 'Nintendo Switch (ver '+firmwareVersion+')');
 
-	write(FONT_X_PADDING, FONT_HEIGHT * 7, 'Main Processor		: Dual-core ARM11 MPCore');
+	write(FONT_X_PADDING, FONT_HEIGHT * 7, 'Main Processor		: Nvidia Tegra X1 SoC');
 	write(FONT_X_PADDING, FONT_HEIGHT * 8, 'Memory Testing		: 4194000K OK');
 
 	write(FONT_X_PADDING, FONT_HEIGHT * 9, 'Primary Master		: 32G Internal Storage');
