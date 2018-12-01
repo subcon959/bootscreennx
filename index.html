@@ -147,9 +147,27 @@
 		</form>
 
 		<canvas width="1280" height="720" id="topscreen"></canvas>
-		<!-- <a id="downloadBMP" class="btn btn-primary" href="#bin" role="button">Download BMP</a> -->
 		<a id="downloadPNG" class="btn btn-primary" href="#png" role="button">Download PNG</a>
-	</div>
+		<!-- <a id="downloadBMP" class="btn btn-primary" href="#bin" role="button">Download BMP</a> -->
+		
+		<div class="row">
+			<fieldset id="options">
+				<legend>About</legend>
+				<h5>What is this?</h5>
+				<p>This is a tool to generate Old School BIOS images that emulate classic PCs; it is intended to be used on the Nintendo Switch. Currently the only method to display a splash screen is to use <a href="https://github.com/CTCaer/hekate">Hekate</a> and enabled autoboot.</p>
+				<h5>How do I use this?</h5>
+				<ol>
+					<li>Tweak the above settings to your liking to generate your custom splash</li>
+					<li>Download the PNG file</li>
+					<b>To convert the file for use on hekate:</b>
+					<li>Convert the image to a 32-bit (ARG8) BMP</li>
+					<li>Rotate the image 90 degrees counter-clockwise</li>
+					<li>Save the file as "bootlogo.bmp" and save it in the booloader/ folder on your SD root</li>
+					<span>More information about Hekate's policy on loading a bootlogo can be found <a href="https://github.com/CTCaer/hekate/blob/master/README_BOOTLOGO.md">here</a></span>
+				</ol>
+				<h5>Can I contribute?</h5>
+				<p>Yes! You can <a href="https://github.com/HarryPeach/bootscreennx">fork the repository</a> on Github and then submit a pull request.</p>
+		</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jcanvas/16.7.3/jcanvas.min.js"></script>
@@ -160,7 +178,6 @@
 		$(document).ready(function () {
 			$('select').material_select();
 		});
-
 	</script>
 </body>
 
