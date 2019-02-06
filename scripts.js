@@ -75,7 +75,7 @@ $("#settings input, #settings select").on('change', function() {
 	}
 
 	// Format the copyright line based on the users selection or custom input
-	copyrightLine = 'Copyright(C) 2018, ';
+	copyrightLine = 'Copyright(C) 2019, ';
 	if(!useCustomCfw){
 		switch(cfwType) {
 			case 'atmosphere':
@@ -153,6 +153,17 @@ $("#settings input, #settings select").on('change', function() {
 				width: 151,
 				height: 134,
 				sx: 30, sy: 168
+			});
+			break;
+		case 'switchlogo':
+			mainCanvas.drawImage({
+				source: 'images/symbols.png',
+				x: 1128, y: 16,
+				sWidth: 93,
+				sHeight: 84,
+				width: 139,
+				height: 126,
+				sx: 39, sy: 252
 			});
 			break;
 	}
