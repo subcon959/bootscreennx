@@ -126,12 +126,19 @@
 								<option value="SELECT">SELECT</option>
 								<option value="HOME">HOME</option>
 							</select>
-						</span><span>to enter</span>
+						</span>
+						<span class="input-field inline">
+							<select name="firstTime" class="form-control form-control-sm">
+								<option value="now">now</option>
+								<option value="boot" selected="selected">on boot</option>
+							</select>
+						</span> 
+						<span>to enter</span>
 						<span class="input-field inline">
 							<input type="text" name="boottool" val="." style="display: none;" class="form-control form-control-sm" />
 							<select name="boottool" class="form-control form-control-sm">
-								<option value="hekate" selected="selected">HEKATE</option>
-								<option value="setup">SETUP</option>
+								<option value="hekate">HEKATE</option>
+								<option value="setup" selected="selected">SETUP</option>
 								<option value="custom"><em>Custom</em></option>
 							</select>
 						</span>
