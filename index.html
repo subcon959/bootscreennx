@@ -107,7 +107,7 @@
 					<p>
 						<input type="checkbox" class="filled-in" id="hold" name="hold" checked="checked" />
 						<label for="hold"></label>
-						<span><strong>Hold</strong></span>
+						<span>Hold</span>
 						<span class="input-field inline">
 							<select name="onboot" class="form-control form-control-sm">
 								<option value="VOL DOWN" selected="selected">VOL DOWN</option>
@@ -129,6 +129,7 @@
 						</span>
 						<span class="input-field inline">
 							<select name="firstTime" class="form-control form-control-sm">
+								<option value="nothing"></option>
 								<option value="now">now</option>
 								<option value="boot" selected="selected">on boot</option>
 							</select>
@@ -136,8 +137,8 @@
 						<span class="input-field inline">
 							<input type="text" name="boottool" val="." style="display: none;" class="form-control form-control-sm" />
 							<select name="boottool" class="form-control form-control-sm">
-								<option value="hekate" selected="selected">Hekate</option>
-								<option value="bootloader">Bootloader</option>
+								<option value="hekate" selected="selected">HEKATE</option>
+								<option value="setup">SETUP</option>
 								<option value="custom"><em>Custom</em></option>
 							</select>
 						</span>
